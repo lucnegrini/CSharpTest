@@ -1,7 +1,8 @@
-﻿using System;
-using System.Configuration;
-using System.Data.SqlClient;
-using System.Net;
+﻿using CSharpTest.Domain.Printer.Interfaces;
+using Newtonsoft.Json;
+using Ninject;
+using System;
+using System.Reflection;
 
 namespace CSharpTest
 {
@@ -9,22 +10,39 @@ namespace CSharpTest
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Press any key to start");
-            Console.ReadKey();
-
-            string connString = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
-            SqlConnection con = new SqlConnection(connString);
-            con.Open();
-
-            using (var client = new WebClient())
+            try
             {
-                client.Headers.Add("Content-Type:application/json");
-                client.Headers.Add("Accept:application/json");
-                var result = client.DownloadString("http://localhost:24520/api/printers");
-                Console.WriteLine(Environment.NewLine + result);
-            }
+                Console.WriteLine("Press any key to start");
+                Console.ReadKey();
 
-            Console.WriteLine("Done!");
+                var di = new StandardKernel();
+                di.Load(Assembly.GetExecutingAssembly());
+                var printerService = di.Get<IPrinterService>();
+                var printerRepository = di.Get<IPrinterRepository>();
+                var printerFactory = di.Get<IPrinterFactory>();
+
+                Console.WriteLine($"{Environment.NewLine}Retrieving printers list from WebAPI...");
+                var apiReturn = printerService.GetPrinters().Result;
+                Console.WriteLine("Done!");
+
+                Console.WriteLine("Saving data into local database...");
+                var printerInfo = printerFactory.ParsePrinterList(apiReturn);
+                printerRepository.InsertPrinters(printerInfo);
+                Console.WriteLine("Done!");
+
+                Console.WriteLine("Retrieving all printers data from database...");
+                var printers = printerRepository.FindAllPrinters();
+
+                Console.WriteLine(JsonConvert.SerializeObject(printers));
+
+                Console.WriteLine("Done!");
+                Console.ReadKey();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"An error occoured while runnig the program: {ex}");
+                Console.ReadKey();
+            }
         }
     }
 }

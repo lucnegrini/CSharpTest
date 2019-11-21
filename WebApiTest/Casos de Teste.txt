@@ -1,0 +1,21 @@
+﻿Caso 1 - Buscar todas as informações:
+	Com a API rodando localmente, fazer uma requisição de tipo GET em  http://localhost:24520/api/printers.
+	A API deverá retornar todos os valores salvos "virtualmente". (Para o estado inicial serão os valores inicialmente hardcoded no código)
+
+Caso 2 - Buscar por nome da Impressora
+	Com a API rodando localmente, fazer uma requisição de tipo GET em  http://localhost:24520/api/printers?name={Nome da Impressora}
+	A API deverá retornar todos os valores em que o noe da impressora seja igual ao nome passado.
+
+Caso 3 - Inserir nova Impressora
+	Fazer uma requisição de tipo POST em http://localhost:24520/api/printers com body contendo uma lista de objetos "PrinterInfo" em formato JSON
+	Fazer uma requisição de tipo GET em  http://localhost:24520/api/printers.
+	A API deverá retornar todos os valores salvos, incluindo o objeto recentemente adicionado.
+
+Caso 4 - Inserir nova Impressora (valor nulo)
+	Fazer uma requisição de tipo POST em http://localhost:24520/api/printers com body nulo.
+	A API deverá retornar mensagem de erro.
+	
+Caso 5 - Limpar Base
+	Fazer uma requisição de tipo DELETE em http://localhost:24520/api/printers.
+	Fazer uma requisição de tipo GET em  http://localhost:24520/api/printers.
+	A API deverá retornar uma lista vazia.

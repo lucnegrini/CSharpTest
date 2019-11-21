@@ -1,0 +1,9 @@
+﻿Caso 1 - Execusão do Projeto
+	Executar o projeto CSharpTest, a mensagem "Press any key to start" deverá aparecer no Console.
+	Ao clicar em qualquer tecla, a mensagem "Retrieving printers list from WebAPI..." deverá aparecer no Console.
+	O Programa deverá buscar os dados de impressoras na WebAPI e escrever a mensagem "Done!".
+	Então a mensagem "Saving data into local database..." deverá aparecer e o Programa deve salvar as informações no banco de dados local e a mensagem "Done!" deve aparecer na tela.
+	Então a mensagem "Retrieving all printers data from database..." deverá aparecer e o Programa deve buscar todas as infomações salvas no banco e imprimi-las em formao JSON.
+	Então a mensagem "Done!" deverá aparecer na tela.
+	Ao clicar em qualquer tela o programa deve finalizar.
+	Se ocorrer algum erro, a mensagem "An error occoured while runnig the program: " deverá ser exibida, seguida da mensagem de erro.
